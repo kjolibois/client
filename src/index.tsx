@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './app/layout/styles.css';
+import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
-
+import { Router } from 'react-router-dom';
+import {createBrowserHistory, History } from 'history';
+import { StoreProvider } from './app/context/StoreContext';
+export const history: History = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router history={history}>
+      <StoreProvider>
+      <App />
+      </StoreProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
