@@ -27,6 +27,8 @@ axios.interceptors.response.use( async response => {
                     }
       
                 }
+           
+                toast.error(data.title)
              throw modelStateErrors.flat();
             }
             toast.error(data.title)
