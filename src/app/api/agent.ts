@@ -6,7 +6,7 @@ import { PaginatedResponse } from "../models/pagination";
 
 
 const sleep = () => new Promise(resolve => setTimeout(resolve,500))
-axios.defaults.baseURL= 'http://localhost:5194/api/'
+axios.defaults.baseURL= process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -17,7 +17,7 @@ axios.interceptors.request.use(config =>{
     return config
 })
 axios.interceptors.response.use( async response => {
-    await sleep();
+    if(process.env.NODE_ENV === 'development') await sleep();
     console.log(response);
     const pagination = response.headers['pagination'];
     if(pagination){
@@ -76,6 +76,9 @@ const Account = {
     fetchAddress : () => requests.get('account/savedAddress')
 
 }
+const Payments ={
+    createPaymentIntent : () => requests.post('payments',{})
+}
 const Basket ={
     get : () => requests.get('basket'),
     addItem : (productId: number, quantity = 1) => requests.post(`basket?productId=${productId}&quantity=${quantity}`,{}),
@@ -107,7 +110,8 @@ const agent = {
     TestErrors,
     Basket,
     Account,
-    Orders
+    Orders,
+    Payments
 }
 
 export default agent;
