@@ -12,10 +12,13 @@ export function configureStore(){
 
 export const store = configureStore({
     reducer:{
+
         counter: counterSlice.reducer,
         basket: basketSlice.reducer,
-        catalog: catalogSlice.reducer,
+       
         account: accountSlice.reducer,
+        catalog: catalogSlice.reducer,
+
     }
 })
 

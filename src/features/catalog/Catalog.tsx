@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import AppPagination from "../../app/components/AppPagination";
 import CheckboxButtons from "../../app/components/CheckboxButtons";
 import RadioButtonGroup from "../../app/components/RadioButtonGroup";
+import useProducts from "../../app/hooks/useProducts";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
-import { fetchFilters, fetchProductsAsync, productSelectors, setProductParams } from "./catalogSlice";
+import { fetchFilters, fetchProductsAsync, productSelectors, setPageNumber, setProductParams } from "./catalogSlice";
 import ProductList from "./ProductList";
 import ProductSearch from "./ProductSearch";
 const sortOptions=[
@@ -18,8 +19,16 @@ const sortOptions=[
 
 ]
 export default function Catalog(){
+/*
+  const {products, filtersLoaded,brands,types, metaData}= useProducts();
+  const{productParams} = useAppSelector(state => state.catalog);
+
+    const dispatch = useAppDispatch();
+*/
+    
     const products = useAppSelector(productSelectors.selectAll);
-    const{ productsLoaded, filtersLoaded,brands,types, productParams,metaData} = useAppSelector(state => state.catalog);
+
+    const{productsLoaded, filtersLoaded,brands,types, productParams,metaData} = useAppSelector(state => state.catalog);
     const dispatch = useAppDispatch();
     useEffect(()=>{
       if(!productsLoaded) dispatch(fetchProductsAsync());
@@ -69,7 +78,8 @@ export default function Catalog(){
             <Grid item xs={9} sx={{mb:2}}>
               {metaData && <AppPagination
                 metaData={metaData}
-                onPageChange={(page:number)=> dispatch(setProductParams({pageNumber:page}))}
+                onPageChange={(page:number) => dispatch(setPageNumber({pageNumber: page}))} 
+
                 />}
             </Grid>
 
